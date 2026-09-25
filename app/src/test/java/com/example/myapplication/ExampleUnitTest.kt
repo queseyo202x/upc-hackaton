@@ -16,24 +16,31 @@ class ExampleUnitTest {
     }
 
     @Test
-    fun parsesOkMessageForEventLogging() {
+    fun parsesGroomingMessageForEventLogging() {
         val result = GeminiClient.parseAnalysis(
-            """{"categoria":"ok","severidad":"ninguna","fragmento":""}"""
+            """{"categoria":"grooming","severidad":"bajo"}"""
         )
 
-        assertEquals(Category.OK, result.category)
+        assertEquals(Category.GROOMING, result.category)
+        assertEquals(Severity.BAJO, result.severity)
         assertTrue(result.shouldPersist)
     }
 
     @Test
     fun parsesHighRiskMessageForPersistence() {
         val result = GeminiClient.parseAnalysis(
-            """{"categoria":"grooming","severidad":"alta","fragmento":"no le digas a nadie"}"""
+            """{"categoria":"acoso sexual","severidad":"alto"}"""
         )
 
-        assertEquals(Category.GROOMING, result.category)
-        assertEquals(Severity.ALTA, result.severity)
+        assertEquals(Category.ACOSO_SEXUAL, result.category)
+        assertEquals(Severity.ALTO, result.severity)
         assertTrue(result.shouldPersist)
-        assertEquals("no le digas a nadie", result.fragment)
+    }
+
+    @Test(expected = IllegalArgumentException::class)
+    fun rejectsCategoryOutsideAllowedValues() {
+        GeminiClient.parseAnalysis(
+            """{"categoria":"contenido_sexual","severidad":"alto"}"""
+        )
     }
 }

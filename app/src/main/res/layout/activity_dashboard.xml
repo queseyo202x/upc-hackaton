@@ -339,8 +339,34 @@
                         android:background="#FFFFFF"
                         android:paddingHorizontal="16dp"
                         android:paddingVertical="8dp"
-                        android:text="🔞 Contenido Sexual (0)"
+                        android:text="🚫 Acoso sexual (0)"
                         android:textColor="#7C2D12"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/chipCyberbullying"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:background="#FFFFFF"
+                        android:paddingHorizontal="16dp"
+                        android:paddingVertical="8dp"
+                        android:text="💻 Ciberbulying (0)"
+                        android:textColor="#1D4ED8"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/chipCoercion"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:background="#FFFFFF"
+                        android:paddingHorizontal="16dp"
+                        android:paddingVertical="8dp"
+                        android:text="⚠️ Coacción (0)"
+                        android:textColor="#7E22CE"
                         android:textSize="13sp"
                         android:textStyle="bold" />
 

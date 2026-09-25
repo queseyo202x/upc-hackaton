@@ -123,9 +123,8 @@ class MainActivity : AppCompatActivity() {
         val detail = attempt.error?.let { "\nHTTP ${attempt.httpCode ?: "N/D"}: $it" }
             ?: attempt.analysis?.let {
                 "\nHTTP ${attempt.httpCode ?: "N/D"}: respuesta JSON recibida" +
-                    "\nClasificación: ${categoryLabel(it.category)}" +
-                    "\nSeveridad: ${it.severity.name.lowercase()}" +
-                    "\nMensaje: ${it.fragment.ifBlank { "sin fragmento" }}"
+                "\nClasificación: ${categoryLabel(it.category)}" +
+                "\nSeveridad: ${it.severity.name.lowercase()}"
             } ?: "\nHTTP ${attempt.httpCode ?: "N/D"}: respuesta recibida"
         val card = TextView(this).apply {
             text = "${if (attempt.success) "OK" else "ERROR"}  ${attempt.model}  " +
@@ -182,14 +181,13 @@ class MainActivity : AppCompatActivity() {
         if (analysis == null) return "Diego_2025\n$message"
         val category = categoryLabel(analysis.category)
         val severity = analysis.severity.name.lowercase()
-        return "Diego_2025\n$message\n\nIA: $category | severidad: $severity\n" +
-            "Modelo: ${analysis.model} | ${analysis.latencyMs} ms | streaming: ${analysis.streamed}\n" +
-            "Fragmento: ${analysis.fragment}"
+        return "Diego_2025\n$message\n\nIA: $category | severidad: $severity"
     }
 
     private fun categoryLabel(category: Category): String = when (category) {
-        Category.OK -> "OK"
         Category.GROOMING -> "Grooming"
-        Category.CONTENIDO_SEXUAL -> "Contenido sexual"
+        Category.ACOSO_SEXUAL -> "Acoso sexual"
+        Category.CIBERBULYING -> "Ciberbulying"
+        Category.COACCION_INTIMIDACION -> "Coacción/intimidación"
     }
 }

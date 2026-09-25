@@ -41,11 +41,15 @@ class GeminiClient(private val apiKey: String) {
         }
         val prompt = """
             Clasifica este mensaje dirigido a una menor. Responde SOLO JSON válido:
-            {"categoria":"ok|grooming|contenido_sexual","severidad":"ninguna|baja|media|alta","fragmento":"fragmento relevante"}
-            grooming: secreto, aislamiento, manipulación o supervisión. contenido_sexual: pedir fotos íntimas o sexualizar.
-            Una petición de una foto a una menor es grooming si busca obtener una imagen personal;
-            si pide una foto íntima o sexualizada, usa contenido_sexual. No minimices la petición por ser breve.
-            Sin riesgo: ok y ninguna. Mensaje recibido: ${JSONObject.quote(message)}
+            {"categoria":"grooming|acoso sexual|ciberbulying|coacción/intimidacion","severidad":"bajo|medio|alto"}
+            Usa obligatoriamente una sola de estas categorías, sin crear variantes:
+            grooming: secreto, aislamiento o manipulación;
+            acoso sexual: insinuaciones, solicitudes o contenido sexual no deseado;
+            ciberbulying: insultos, humillación, amenazas o persecución digital;
+            coacción/intimidacion: presión, chantaje, control o intimidación.
+            Usa obligatoriamente una sola severidad: bajo, medio o alto.
+            Todo mensaje debe clasificarse en una de las cuatro categorías y una severidad.
+            Mensaje recibido: ${JSONObject.quote(message)}
         """.trimIndent()
         val body = JSONObject()
             .put("contents", JSONArray().put(JSONObject()
@@ -170,9 +174,9 @@ class GeminiClient(private val apiKey: String) {
                 normalized.contains("dame")
             if (!requestsPhoto) return null
             return if (asksForIntimatePhoto) {
-                AnalysisResult(Category.CONTENIDO_SEXUAL, Severity.ALTA, message)
+                AnalysisResult(Category.ACOSO_SEXUAL, Severity.ALTO)
             } else {
-                AnalysisResult(Category.GROOMING, Severity.MEDIA, message)
+                AnalysisResult(Category.GROOMING, Severity.MEDIO)
             }
         }
 
@@ -185,19 +189,19 @@ class GeminiClient(private val apiKey: String) {
                     ?: throw IllegalArgumentException("Campo $name vacío")
             }
             val category = when (field("categoria").lowercase()) {
-                "ok" -> Category.OK
                 "grooming" -> Category.GROOMING
-                "contenido_sexual" -> Category.CONTENIDO_SEXUAL
+                "acoso sexual" -> Category.ACOSO_SEXUAL
+                "ciberbulying" -> Category.CIBERBULYING
+                "coacción/intimidacion", "coaccion/intimidacion" -> Category.COACCION_INTIMIDACION
                 else -> throw IllegalArgumentException("Categoría de Gemini no válida")
             }
             val severity = when (field("severidad").lowercase()) {
-                "ninguna" -> Severity.NINGUNA
-                "baja" -> Severity.BAJA
-                "media" -> Severity.MEDIA
-                "alta" -> Severity.ALTA
+                "bajo" -> Severity.BAJO
+                "medio" -> Severity.MEDIO
+                "alto" -> Severity.ALTO
                 else -> throw IllegalArgumentException("Severidad de Gemini no válida")
             }
-            return AnalysisResult(category, severity, runCatching { field("fragmento") }.getOrDefault(""))
+            return AnalysisResult(category, severity)
         }
 
         private const val TAG = "GeminiClient"

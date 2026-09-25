@@ -136,7 +136,9 @@ El cuerpo solicita:
 }
 ```
 
-El prompt exige exactamente `categoria`, `severidad` y `fragmento`. Cada modelo se mide con
+El prompt exige exactamente `categoria` y `severidad`, usando únicamente las cuatro categorías
+`grooming`, `acoso sexual`, `ciberbulying` y `coacción/intimidacion`, y las severidades
+`bajo`, `medio` y `alto`. Cada modelo se mide con
 `System.nanoTime()`. La respuesta SSE se concatena, se limpia de fences Markdown y se valida.
 Los errores HTTP conservan código y cuerpo para mostrarlos en el cuadro del modelo.
 
@@ -147,14 +149,11 @@ Cada documento contiene:
 
 ```text
 message    mensaje original
-fragment   fragmento devuelto por Gemini
-category   ok, grooming o contenido_sexual
-severity   ninguna, baja, media o alta
-contact    nombre del contacto simulado
-model      modelo que produjo la clasificación usada
-latencyMs  tiempo de respuesta en milisegundos
-streamed   true cuando se procesó SSE
-createdAt  timestamp del servidor
+categoria  grooming, acoso sexual, ciberbulying o coacción/intimidacion
+severidad  bajo, medio o alto
+mensaje    mensaje original
+contacto   nombre del contacto simulado
+hora       timestamp del servidor
 ```
 
 La app confirma el guardado mediante el estado de la pantalla y un Snackbar. Para verlo:

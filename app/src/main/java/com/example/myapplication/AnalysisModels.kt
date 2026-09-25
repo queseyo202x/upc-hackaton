@@ -1,12 +1,17 @@
 package com.example.myapplication
 
-enum class Category { OK, GROOMING, CONTENIDO_SEXUAL }
-enum class Severity { NINGUNA, BAJA, MEDIA, ALTA }
+enum class Category {
+    GROOMING,
+    ACOSO_SEXUAL,
+    CIBERBULYING,
+    COACCION_INTIMIDACION
+}
+
+enum class Severity { BAJO, MEDIO, ALTO }
 
 data class AnalysisResult(
     val category: Category,
     val severity: Severity,
-    val fragment: String,
     val model: String = "rules",
     val latencyMs: Long = 0,
     val streamed: Boolean = false
@@ -31,9 +36,8 @@ data class ChatMessage(
 
 data class EventRecord(
     val message: String,
-    val fragment: String,
     val category: Category,
     val severity: Severity,
     val contact: String,
-    val createdAtMillis: Long?
+    val hourMillis: Long?
 )

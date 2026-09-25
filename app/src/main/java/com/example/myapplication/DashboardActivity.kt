@@ -19,7 +19,9 @@ import java.util.Date
 
 class DashboardActivity : AppCompatActivity() {
 
-    private enum class EventFilter { ALL, HIGH_RISK, GROOMING, SEXUAL_CONTENT, MEDIUM_RISK }
+    private enum class EventFilter {
+        ALL, HIGH_RISK, GROOMING, SEXUAL_HARASSMENT, CYBERBULLYING, COERCION, MEDIUM_RISK
+    }
 
     private lateinit var root: View
     private lateinit var eventsContainer: LinearLayout
@@ -31,6 +33,8 @@ class DashboardActivity : AppCompatActivity() {
     private lateinit var chipHighRisk: TextView
     private lateinit var chipGrooming: TextView
     private lateinit var chipSexualContent: TextView
+    private lateinit var chipCyberbullying: TextView
+    private lateinit var chipCoercion: TextView
     private lateinit var chipMediumRisk: TextView
 
     private val repository by lazy { FirestoreEventRepository() }
@@ -58,6 +62,8 @@ class DashboardActivity : AppCompatActivity() {
         chipHighRisk = findViewById(R.id.chipHighRisk)
         chipGrooming = findViewById(R.id.chipGrooming)
         chipSexualContent = findViewById(R.id.chipSexualContent)
+        chipCyberbullying = findViewById(R.id.chipCyberbullying)
+        chipCoercion = findViewById(R.id.chipCoercion)
         chipMediumRisk = findViewById(R.id.chipMediumRisk)
 
         setupFilterChips()
@@ -71,7 +77,9 @@ class DashboardActivity : AppCompatActivity() {
         chipAll.setOnClickListener { setFilter(EventFilter.ALL) }
         chipHighRisk.setOnClickListener { setFilter(EventFilter.HIGH_RISK) }
         chipGrooming.setOnClickListener { setFilter(EventFilter.GROOMING) }
-        chipSexualContent.setOnClickListener { setFilter(EventFilter.SEXUAL_CONTENT) }
+        chipSexualContent.setOnClickListener { setFilter(EventFilter.SEXUAL_HARASSMENT) }
+        chipCyberbullying.setOnClickListener { setFilter(EventFilter.CYBERBULLYING) }
+        chipCoercion.setOnClickListener { setFilter(EventFilter.COERCION) }
         chipMediumRisk.setOnClickListener { setFilter(EventFilter.MEDIUM_RISK) }
     }
 
@@ -86,7 +94,9 @@ class DashboardActivity : AppCompatActivity() {
             EventFilter.ALL to chipAll,
             EventFilter.HIGH_RISK to chipHighRisk,
             EventFilter.GROOMING to chipGrooming,
-            EventFilter.SEXUAL_CONTENT to chipSexualContent,
+            EventFilter.SEXUAL_HARASSMENT to chipSexualContent,
+            EventFilter.CYBERBULLYING to chipCyberbullying,
+            EventFilter.COERCION to chipCoercion,
             EventFilter.MEDIUM_RISK to chipMediumRisk
         )
 
@@ -99,7 +109,9 @@ class DashboardActivity : AppCompatActivity() {
                 val textColor = when (filter) {
                     EventFilter.HIGH_RISK -> Color.parseColor("#991B1B")
                     EventFilter.GROOMING -> Color.parseColor("#C2410C")
-                    EventFilter.SEXUAL_CONTENT -> Color.parseColor("#7C2D12")
+                    EventFilter.SEXUAL_HARASSMENT -> Color.parseColor("#7C2D12")
+                    EventFilter.CYBERBULLYING -> Color.parseColor("#1D4ED8")
+                    EventFilter.COERCION -> Color.parseColor("#7E22CE")
                     EventFilter.MEDIUM_RISK -> Color.parseColor("#D97706")
                     else -> Color.parseColor("#1E293B")
                 }
@@ -132,9 +144,9 @@ class DashboardActivity : AppCompatActivity() {
             set(Calendar.MILLISECOND, 0)
         }.timeInMillis
 
-        val todayEvents = allEvents.filter { (it.createdAtMillis ?: 0L) >= todayStart }
-        val criticalCount = todayEvents.count { it.severity == Severity.ALTA }
-        val mediumCount = todayEvents.count { it.severity == Severity.MEDIA }
+        val todayEvents = allEvents.filter { (it.hourMillis ?: 0L) >= todayStart }
+        val criticalCount = todayEvents.count { it.severity == Severity.ALTO }
+        val mediumCount = todayEvents.count { it.severity == Severity.MEDIO }
 
         statTodayCount.text = todayEvents.size.toString()
         statTodayDetail.text = "$criticalCount crítica · $mediumCount media"
@@ -153,25 +165,31 @@ class DashboardActivity : AppCompatActivity() {
 
     private fun updateChipCounts() {
         val countAll = allEvents.size
-        val countHigh = allEvents.count { it.severity == Severity.ALTA }
+        val countHigh = allEvents.count { it.severity == Severity.ALTO }
         val countGrooming = allEvents.count { it.category == Category.GROOMING }
-        val countSexual = allEvents.count { it.category == Category.CONTENIDO_SEXUAL }
-        val countMedium = allEvents.count { it.severity == Severity.MEDIA }
+        val countSexual = allEvents.count { it.category == Category.ACOSO_SEXUAL }
+        val countCyberbullying = allEvents.count { it.category == Category.CIBERBULYING }
+        val countCoercion = allEvents.count { it.category == Category.COACCION_INTIMIDACION }
+        val countMedium = allEvents.count { it.severity == Severity.MEDIO }
 
         chipAll.text = "Todos ($countAll)"
         chipHighRisk.text = "🔴 Alto Riesgo ($countHigh)"
         chipGrooming.text = "⚠️ Grooming ($countGrooming)"
-        chipSexualContent.text = "🔞 Contenido Sexual ($countSexual)"
+        chipSexualContent.text = "🚫 Acoso sexual ($countSexual)"
+        chipCyberbullying.text = "💻 Ciberbulying ($countCyberbullying)"
+        chipCoercion.text = "⚠️ Coacción ($countCoercion)"
         chipMediumRisk.text = "⚡ Riesgo Medio ($countMedium)"
     }
 
     private fun renderEventsList() {
         val filteredEvents = when (activeFilter) {
             EventFilter.ALL -> allEvents
-            EventFilter.HIGH_RISK -> allEvents.filter { it.severity == Severity.ALTA }
+            EventFilter.HIGH_RISK -> allEvents.filter { it.severity == Severity.ALTO }
             EventFilter.GROOMING -> allEvents.filter { it.category == Category.GROOMING }
-            EventFilter.SEXUAL_CONTENT -> allEvents.filter { it.category == Category.CONTENIDO_SEXUAL }
-            EventFilter.MEDIUM_RISK -> allEvents.filter { it.severity == Severity.MEDIA }
+            EventFilter.SEXUAL_HARASSMENT -> allEvents.filter { it.category == Category.ACOSO_SEXUAL }
+            EventFilter.CYBERBULLYING -> allEvents.filter { it.category == Category.CIBERBULYING }
+            EventFilter.COERCION -> allEvents.filter { it.category == Category.COACCION_INTIMIDACION }
+            EventFilter.MEDIUM_RISK -> allEvents.filter { it.severity == Severity.MEDIO }
         }
 
         eventsContainer.removeAllViews()
@@ -209,49 +227,45 @@ class DashboardActivity : AppCompatActivity() {
 
         platformTag.text = if (handleName.lowercase().contains("insta")) "INSTAGRAM DM" else "WHATSAPP"
 
-        val formattedTime = event.createdAtMillis?.let {
+        val formattedTime = event.hourMillis?.let {
             DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT).format(Date(it))
         } ?: "Reciente"
         eventTime.text = formattedTime
 
         when (event.severity) {
-            Severity.ALTA -> {
+            Severity.ALTO -> {
                 riskBar.setBackgroundColor(Color.parseColor("#D32F2F"))
                 severityBadge.text = "✱ Alto Riesgo"
                 severityBadge.setBackgroundColor(Color.parseColor("#D32F2F"))
             }
-            Severity.MEDIA -> {
+            Severity.MEDIO -> {
                 riskBar.setBackgroundColor(Color.parseColor("#D97706"))
                 severityBadge.text = "⚡ Riesgo Medio"
                 severityBadge.setBackgroundColor(Color.parseColor("#D97706"))
             }
-            Severity.BAJA -> {
+            Severity.BAJO -> {
                 riskBar.setBackgroundColor(Color.parseColor("#EAB308"))
                 severityBadge.text = "🟡 Riesgo Bajo"
                 severityBadge.setBackgroundColor(Color.parseColor("#EAB308"))
             }
-            Severity.NINGUNA -> {
-                riskBar.setBackgroundColor(Color.parseColor("#16A34A"))
-                severityBadge.text = "🟢 Sin Riesgo"
-                severityBadge.setBackgroundColor(Color.parseColor("#16A34A"))
-            }
         }
 
         categoryDesc.text = when (event.category) {
-            Category.GROOMING -> "Grooming · Solicitud de secreto y fotos"
-            Category.CONTENIDO_SEXUAL -> "Contenido sexual · Solicitud / Envío explícito"
-            Category.OK -> "Mensaje analizado · Seguro"
+            Category.GROOMING -> "Grooming"
+            Category.ACOSO_SEXUAL -> "Acoso sexual"
+            Category.CIBERBULYING -> "Ciberbulying"
+            Category.COACCION_INTIMIDACION -> "Coacción/intimidación"
         }
 
         confidenceText.text = "Confianza IA: 98%"
 
-        val fragment = event.fragment.ifBlank { event.message }
-        messageQuote.text = "“$fragment”"
+        messageQuote.text = "“${event.message}”"
 
         patternText.text = when (event.category) {
-            Category.GROOMING -> "Detección de patrones: Coerción emocional y aislamiento parental detectado."
-            Category.CONTENIDO_SEXUAL -> "Detección de patrones: Solicitud de material explícito o acoso digital."
-            Category.OK -> "Detección de patrones: Conversación habitual sin amenazas identificadas."
+            Category.GROOMING -> "Detección de patrones: secreto, aislamiento o manipulación."
+            Category.ACOSO_SEXUAL -> "Detección de patrones: conducta o contenido sexual no deseado."
+            Category.CIBERBULYING -> "Detección de patrones: humillación, insultos o persecución digital."
+            Category.COACCION_INTIMIDACION -> "Detección de patrones: presión, chantaje o intimidación."
         }
 
         btnGuide.setOnClickListener {
