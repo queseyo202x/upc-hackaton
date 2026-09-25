@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Chat seguro</string>
+    <string name="contact_name">Diego_2025</string>
+    <string name="message_hint">Escribe un mensaje recibido…</string>
+    <string name="send">Analizar</string>
+    <string name="accessibility_service_name">Analizador de mensajes de WhatsApp</string>
+    <string name="accessibility_service_description">Lee texto visible de WhatsApp para analizar mensajes con Gemini. Solo procesa WhatsApp y limita las solicitudes.</string>
+</resources>

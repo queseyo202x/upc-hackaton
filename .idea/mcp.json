@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "firebase-mcp-server": {
+      "command": "npx.cmd",
+      "args": [
+        "-y",
+        "firebase-tools@latest",
+        "mcp",
+        "--dir",
+        "C:\\Users\\Manue\\AndroidStudioProjects\\MyApplication"
+      ]
+    }
+  }
+}
