@@ -1,6 +1,7 @@
 package com.example.myapplication
 
 import android.graphics.Color
+import android.graphics.Typeface
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -99,23 +100,53 @@ class ChatSimulatorActivity : AppCompatActivity() {
             setPadding(0, 0, 0, 12)
         })
         conversations.getValue(contact).forEach { message ->
-            messages.addView(TextView(this).apply {
-                text = message.text
-                textSize = 16f
-                setTextColor(Color.parseColor("#17152B"))
-                setBackgroundColor(
-                    if (message.severity == Severity.ALTO) Color.parseColor("#FCE8E8")
-                    else Color.parseColor("#FFF4E5")
+            val messageCard = LinearLayout(this).apply {
+                orientation = LinearLayout.VERTICAL
+                setPadding(16, 12, 16, 12)
+                setBackgroundResource(
+                    if (message.severity == Severity.ALTO) R.drawable.bg_chat_message_high
+                    else R.drawable.bg_chat_message_medium
                 )
-                setPadding(16, 14, 16, 14)
                 val params = LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT
                 )
                 params.setMargins(0, 0, 0, 8)
                 layoutParams = params
-            })
+            }
+            val metadata = TextView(this).apply {
+                text = "${categoryLabel(message.category)}  ·  ${severityLabel(message.severity)}"
+                textSize = 12f
+                typeface = Typeface.DEFAULT_BOLD
+                setTextColor(
+                    if (message.severity == Severity.ALTO) Color.parseColor("#B0003A")
+                    else Color.parseColor("#A66300")
+                )
+            }
+            val text = TextView(this).apply {
+                this.text = message.text
+                textSize = 16f
+                typeface = Typeface.DEFAULT_BOLD
+                setTextColor(Color.parseColor("#17152B"))
+                setPadding(0, 6, 0, 0)
+            }
+            messageCard.addView(metadata)
+            messageCard.addView(text)
+            messages.addView(messageCard)
         }
+    }
+
+    private fun severityLabel(severity: Severity): String = when (severity) {
+        Severity.ALTO -> "Riesgo alto"
+        Severity.MEDIO -> "Riesgo medio"
+        Severity.BAJO -> "Riesgo bajo"
+    }
+
+    private fun categoryLabel(category: Category): String = when (category) {
+        Category.GROOMING -> "Grooming"
+        Category.ACOSO_SEXUAL -> "Acoso sexual"
+        Category.CIBERBULYING -> "Ciberbullying"
+        Category.COACCION_INTIMIDACION -> "Coacción"
     }
 
     private fun uploadAllConversations() {
