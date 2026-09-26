@@ -128,49 +128,11 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="14dp"
-                android:background="@drawable/bg_kira_lilac"
-                android:gravity="center_vertical"
-                android:padding="12dp">
-                <TextView
-                    android:layout_width="126dp"
-                    android:layout_height="78dp"
-                    android:background="#17152B"
-                    android:gravity="center"
-                    android:text="Kira\n• • • • •"
-                    android:textColor="#FFFFFF"
-                    android:textSize="11sp" />
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="14dp"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Estoy aquí contigo"
-                        android:textColor="#211A49"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:text="Te cuido en silencio sin juzgarte."
-                        android:textColor="#625B71"
-                        android:textSize="13sp" />
-                </LinearLayout>
-            </LinearLayout>
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:text="⚽ Apoyo rápido y ayuda"
+                android:text="Apoyo rápido y ayuda"
                 android:textColor="#17152B"
                 android:textSize="20sp"
                 android:textStyle="bold" />
@@ -346,37 +308,144 @@
                 android:textColor="#77738D"
                 android:textSize="13sp" />
 
-            <TextView
+            <LinearLayout
                 android:id="@+id/learnCardSecret"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/bg_kira_card"
-                android:drawablePadding="12dp"
-                android:padding="16dp"
-                android:text="🚩  2 min de lectura   Alerta\n\nLa técnica del secreto: ¿Por qué te piden que no le cuentes a nadie?"
-                android:textColor="#17152B"
-                android:textSize="16sp" />
-            <TextView
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="14dp">
+                <TextView
+                    android:layout_width="38dp"
+                    android:layout_height="52dp"
+                    android:gravity="center"
+                    android:text="⚑"
+                    android:textColor="#B0003A"
+                    android:textSize="30sp" />
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="2 min de lectura   ·   Alerta"
+                        android:textColor="#B0003A"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="La técnica del secreto: ¿Por qué te piden que no le cuentes a nadie?"
+                        android:textColor="#17152B"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+                <TextView
+                    android:layout_width="24dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="⌄"
+                    android:textColor="#211A49"
+                    android:textSize="20sp" />
+            </LinearLayout>
+            <LinearLayout
                 android:id="@+id/learnCardSocial"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:background="#FFFFFF"
-                android:padding="16dp"
-                android:text="🧑‍💻  Guía visual   Redes sociales\n\nPerfiles señuelo: cómo identificar fotos o identidades falsas en Instagram o TikTok"
-                android:textColor="#17152B"
-                android:textSize="16sp" />
-            <TextView
+                android:background="@drawable/bg_kira_card"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="14dp">
+                <TextView
+                    android:layout_width="38dp"
+                    android:layout_height="52dp"
+                    android:gravity="center"
+                    android:text="♟"
+                    android:textColor="#4B388F"
+                    android:textSize="28sp" />
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Guía visual   ·   Redes sociales"
+                        android:textColor="#4B388F"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="Perfiles señuelo: cómo identificar fotos o identidades falsas en Instagram o TikTok"
+                        android:textColor="#17152B"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+                <TextView
+                    android:layout_width="24dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="⌄"
+                    android:textColor="#211A49"
+                    android:textSize="20sp" />
+            </LinearLayout>
+            <LinearLayout
                 android:id="@+id/learnCardPhotos"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:background="#FFFFFF"
-                android:padding="16dp"
-                android:text="⚠  Paso a paso   Seguridad íntima\n\nQué hacer si te piden fotos íntimas o te amenazan con compartirlas"
-                android:textColor="#17152B"
-                android:textSize="16sp" />
+                android:background="@drawable/bg_kira_card"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="14dp">
+                <TextView
+                    android:layout_width="38dp"
+                    android:layout_height="52dp"
+                    android:gravity="center"
+                    android:text="⚠"
+                    android:textColor="#D39A00"
+                    android:textSize="28sp" />
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Paso a paso   ·   Seguridad íntima"
+                        android:textColor="#16826D"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="Qué hacer si te piden fotos íntimas o te amenazan con compartirlas"
+                        android:textColor="#17152B"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+                <TextView
+                    android:layout_width="24dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="⌄"
+                    android:textColor="#211A49"
+                    android:textSize="20sp" />
+            </LinearLayout>
         </LinearLayout>
 
         <EditText

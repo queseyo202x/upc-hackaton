@@ -53,19 +53,19 @@ class MainActivity : AppCompatActivity() {
         findViewById<Button>(R.id.dashboardButton).setOnClickListener {
             startActivity(Intent(this, DashboardActivity::class.java))
         }
-        findViewById<TextView>(R.id.learnCardSecret).setOnClickListener {
+        findViewById<View>(R.id.learnCardSecret).setOnClickListener {
             showLearningPopup(
                 "La técnica del secreto",
                 "Si alguien te pide ocultar una conversación, fotos o algo que te incomoda, cuéntaselo a una persona adulta de confianza. Los secretos que te hacen sentir mal no tienes que guardarlos."
             )
         }
-        findViewById<TextView>(R.id.learnCardSocial).setOnClickListener {
+        findViewById<View>(R.id.learnCardSocial).setOnClickListener {
             showLearningPopup(
                 "Perfiles señuelo",
                 "No todo perfil es quien dice ser. Revisa sus fotos, amistades y forma de hablar. Nunca compartas datos personales con alguien que no conoces en la vida real."
             )
         }
-        findViewById<TextView>(R.id.learnCardPhotos).setOnClickListener {
+        findViewById<View>(R.id.learnCardPhotos).setOnClickListener {
             showLearningPopup(
                 "Si te piden fotos íntimas",
                 "No las envíes. Guarda las pruebas, bloquea a la persona y habla con mamá, papá u otro adulto de confianza. Si te amenazan, pide ayuda de inmediato."
