@@ -215,7 +215,6 @@ private fun ReportsScreen(
             }
             ProtocolCard("Línea 100", "Orientación, consejería y soporte emocional. Gratuita y disponible las 24 horas.", "Llamar al 100", Purple, Intent.ACTION_DIAL, "tel:100", openDestination)
             ProtocolCard("Centros Emergencia Mujer y Familia", "Atención legal, psicológica y social gratuita para personas afectadas por violencia.", "Ver información oficial", Color(0xFF007A70), Intent.ACTION_VIEW, "https://www.gob.pe/479-reportar-casos-de-violencia-contra-las-mujeres-e-integrantes-del-grupo-familiar", openDestination)
-            ProtocolCard("Denuncia formal", "Conserva mensajes, capturas y fechas. Presenta la denuncia ante la Policía o Fiscalía.", "Radicar denuncia formal", Purple, Intent.ACTION_VIEW, "https://www.gob.pe/pnp", openDestination)
             Spacer(Modifier.height(4.dp))
         }
     }
