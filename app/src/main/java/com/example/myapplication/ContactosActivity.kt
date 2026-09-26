@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.EditText
+import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
@@ -116,22 +117,35 @@ class ContactosActivity : AppCompatActivity() {
                 orientation = LinearLayout.HORIZONTAL
                 gravity = android.view.Gravity.TOP
             }
+            val markerColumn = FrameLayout(this).apply {
+                layoutParams = LinearLayout.LayoutParams(18, LinearLayout.LayoutParams.MATCH_PARENT)
+            }
+            val timelineLine = View(this).apply {
+                setBackgroundColor(Color.parseColor("#D8D2E8"))
+            }
+            markerColumn.addView(timelineLine, FrameLayout.LayoutParams(2, FrameLayout.LayoutParams.MATCH_PARENT).apply {
+                gravity = android.view.Gravity.CENTER_HORIZONTAL
+            })
             val marker = TextView(this).apply {
                 text = if (index == 0) "●" else "○"
-                textSize = 18f
+                textSize = 13f
                 setTextColor(if (event.severity == Severity.ALTO) Color.parseColor("#C62828") else Color.parseColor("#D97706"))
-                setPadding(0, 0, 10, 0)
+                setBackgroundColor(Color.WHITE)
+                gravity = android.view.Gravity.CENTER
             }
             val detail = TextView(this).apply {
                 text = "${categoryLabel(event.category)} · ${event.message}"
                 textSize = 13f
                 setTextColor(Color.parseColor("#363247"))
                 setBackgroundColor(if (event.severity == Severity.ALTO) Color.parseColor("#FCE8E8") else Color.parseColor("#FFF4E5"))
-                setPadding(12, 10, 12, 10)
+                setPadding(8, 7, 8, 7)
             }
-            row.addView(marker)
+            markerColumn.addView(marker, FrameLayout.LayoutParams(18, 18).apply {
+                gravity = android.view.Gravity.TOP or android.view.Gravity.CENTER_HORIZONTAL
+            })
+            row.addView(markerColumn)
             row.addView(detail, LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f).apply {
-                bottomMargin = 8
+                bottomMargin = 6
             })
             timeline.addView(row)
         }

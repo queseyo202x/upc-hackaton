@@ -80,19 +80,11 @@
                 android:textColor="#363247"
                 android:textSize="14sp"
                 android:textStyle="italic" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="14dp"
-                android:text="Línea de tiempo"
-                android:textColor="#33246E"
-                android:textSize="13sp"
-                android:textStyle="bold" />
             <LinearLayout
                 android:id="@+id/timelineContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
+                android:layout_marginTop="14dp"
                 android:orientation="vertical" />
         </LinearLayout>
     </LinearLayout>
