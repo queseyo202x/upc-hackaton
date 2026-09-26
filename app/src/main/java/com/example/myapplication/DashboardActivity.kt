@@ -86,6 +86,9 @@ class DashboardActivity : AppCompatActivity() {
         findViewById<View>(R.id.reportsNavigation).setOnClickListener {
             startActivity(Intent(this, ReportsActivity::class.java))
         }
+        findViewById<View>(R.id.contactNavigation).setOnClickListener {
+            startActivity(Intent(this, ContactosActivity::class.java))
+        }
 
         loadDashboard()
     }

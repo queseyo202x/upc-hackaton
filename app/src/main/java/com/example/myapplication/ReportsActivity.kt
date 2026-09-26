@@ -87,6 +87,10 @@ class ReportsActivity : ComponentActivity() {
                 goHome = {
                     startActivity(Intent(this, DashboardActivity::class.java))
                     finish()
+                },
+                goContacts = {
+                    startActivity(Intent(this, ContactosActivity::class.java))
+                    finish()
                 }
             )
         }
@@ -98,7 +102,8 @@ class ReportsActivity : ComponentActivity() {
 private fun ReportsScreen(
     loadEvents: ((Result<List<EventRecord>>) -> Unit) -> Unit,
     openDestination: (String, String) -> Unit,
-    goHome: () -> Unit
+    goHome: () -> Unit,
+    goContacts: () -> Unit
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
@@ -143,7 +148,7 @@ private fun ReportsScreen(
         containerColor = ReportBackground,
         snackbarHost = { SnackbarHost(snackbarHostState) },
         bottomBar = {
-            BottomNavigation(selectedReports = true, onHome = goHome)
+            BottomNavigation(selectedReports = true, onHome = goHome, onContacts = goContacts)
         }
     ) { insets ->
         Column(
@@ -481,12 +486,12 @@ private fun ProtocolCard(title: String, description: String, action: String, col
 }
 
 @Composable
-private fun BottomNavigation(selectedReports: Boolean, onHome: () -> Unit) {
+private fun BottomNavigation(selectedReports: Boolean, onHome: () -> Unit, onContacts: () -> Unit) {
     Row(Modifier.fillMaxWidth().background(Color.White).padding(horizontal = 12.dp, vertical = 10.dp), horizontalArrangement = Arrangement.SpaceAround) {
-        NavigationItem("🛡️", "Inicio", false, onHome)
-        NavigationItem("📊", "Reportes", selectedReports) {}
-        NavigationItem("👥", "Contactos", false) {}
-        NavigationItem("⚙️", "Ajustes", false) {}
+        NavigationItem("⌂", "Inicio", false, onHome)
+        NavigationItem("▤", "Reportes", selectedReports) {}
+        NavigationItem("♧", "Contactos", false, onContacts)
+        NavigationItem("⚙", "Ajustes", false) {}
     }
 }
 
