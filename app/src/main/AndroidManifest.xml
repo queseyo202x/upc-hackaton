@@ -26,6 +26,9 @@
         <activity
             android:name=".DashboardActivity"
             android:exported="false" />
+        <activity
+            android:name=".ReportsActivity"
+            android:exported="false" />
         <service
             android:name=".WhatsappAccessibilityService"
             android:description="@string/accessibility_service_description"

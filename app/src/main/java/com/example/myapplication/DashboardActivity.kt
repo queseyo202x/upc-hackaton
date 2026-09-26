@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.content.Intent
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -69,6 +70,9 @@ class DashboardActivity : AppCompatActivity() {
         setupFilterChips()
 
         findViewById<Button>(R.id.backToAnalysisButton).setOnClickListener { finish() }
+        findViewById<View>(R.id.reportsNavigation).setOnClickListener {
+            startActivity(Intent(this, ReportsActivity::class.java))
+        }
 
         loadDashboard()
     }

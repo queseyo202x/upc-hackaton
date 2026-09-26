@@ -541,6 +541,7 @@
         android:paddingVertical="8dp">
 
         <LinearLayout
+            android:id="@+id/homeNavigation"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -563,6 +564,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/reportsNavigation"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -578,7 +580,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Reportes IA"
+                android:text="Reportes"
                 android:textColor="#64748B"
                 android:textSize="11sp" />
         </LinearLayout>

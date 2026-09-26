@@ -2,7 +2,6 @@ package com.example.myapplication
 
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.Query
 
 class FirestoreEventRepository(
     private val firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
@@ -27,38 +26,44 @@ class FirestoreEventRepository(
 
     fun loadEvents(onComplete: (Result<List<EventRecord>>) -> Unit) {
         firestore.collection("events")
-            .orderBy("hora", Query.Direction.DESCENDING)
             .limit(100)
             .get()
             .addOnSuccessListener { snapshot ->
                 val events = snapshot.documents.mapNotNull { document ->
-                    val category = document.getString("categoria")?.toCategory() ?: return@mapNotNull null
-                    val severity = document.getString("severidad")?.toSeverity() ?: return@mapNotNull null
+                    val category = document.firstString("categoria", "category")?.toCategory()
+                        ?: return@mapNotNull null
+                    val severity = document.firstString("severidad", "severity")?.toSeverity()
+                        ?: return@mapNotNull null
                     EventRecord(
-                        message = document.getString("mensaje").orEmpty(),
+                        message = document.firstString("mensaje", "message").orEmpty(),
                         category = category,
                         severity = severity,
-                        contact = document.getString("contacto").orEmpty(),
+                        contact = document.firstString("contacto", "contact").orEmpty(),
                         hourMillis = document.getTimestamp("hora")?.toDate()?.time
+                            ?: document.getTimestamp("createdAt")?.toDate()?.time
                     )
                 }
-                onComplete(Result.success(events))
+                onComplete(Result.success(events.sortedByDescending { it.hourMillis ?: 0L }))
             }
             .addOnFailureListener { onComplete(Result.failure(it)) }
     }
 
+    private fun com.google.firebase.firestore.DocumentSnapshot.firstString(vararg fields: String): String? =
+        fields.asSequence().mapNotNull { getString(it) }.firstOrNull()
+
     private fun String.toCategory(): Category? = when (lowercase()) {
         "grooming" -> Category.GROOMING
         "acoso sexual" -> Category.ACOSO_SEXUAL
+        "contenido_sexual" -> Category.ACOSO_SEXUAL
         "ciberbulying" -> Category.CIBERBULYING
         "coacción/intimidacion", "coaccion/intimidacion" -> Category.COACCION_INTIMIDACION
         else -> null
     }
 
     private fun String.toSeverity(): Severity? = when (lowercase()) {
-        "bajo" -> Severity.BAJO
-        "medio" -> Severity.MEDIO
-        "alto" -> Severity.ALTO
+        "bajo", "baja" -> Severity.BAJO
+        "medio", "media" -> Severity.MEDIO
+        "alto", "alta" -> Severity.ALTO
         else -> null
     }
 
