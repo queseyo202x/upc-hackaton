@@ -10,6 +10,7 @@ import android.widget.LinearLayout
 import android.widget.ScrollView
 import android.widget.TextView
 import android.content.Intent
+import android.app.AlertDialog
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -42,12 +43,42 @@ class MainActivity : AppCompatActivity() {
         messageInput = findViewById(R.id.messageInput)
         sendButton = findViewById(R.id.sendButton)
         modelStatusContainer = findViewById(R.id.modelStatusContainer)
-        sendButton.setOnClickListener { analyzeCurrentMessage() }
+        sendButton.setOnClickListener {
+            Snackbar.make(
+                findViewById(R.id.main),
+                "El envío de mensajes estará disponible próximamente.",
+                Snackbar.LENGTH_LONG
+            ).show()
+        }
         findViewById<Button>(R.id.dashboardButton).setOnClickListener {
             startActivity(Intent(this, DashboardActivity::class.java))
         }
-        addMessageBubble("Prueba el análisis escribiendo un mensaje de Diego_2025.", null)
-        statusText.text = AccessibilityDiagnostics.summary(this)
+        findViewById<TextView>(R.id.learnCardSecret).setOnClickListener {
+            showLearningPopup(
+                "La técnica del secreto",
+                "Si alguien te pide ocultar una conversación, fotos o algo que te incomoda, cuéntaselo a una persona adulta de confianza. Los secretos que te hacen sentir mal no tienes que guardarlos."
+            )
+        }
+        findViewById<TextView>(R.id.learnCardSocial).setOnClickListener {
+            showLearningPopup(
+                "Perfiles señuelo",
+                "No todo perfil es quien dice ser. Revisa sus fotos, amistades y forma de hablar. Nunca compartas datos personales con alguien que no conoces en la vida real."
+            )
+        }
+        findViewById<TextView>(R.id.learnCardPhotos).setOnClickListener {
+            showLearningPopup(
+                "Si te piden fotos íntimas",
+                "No las envíes. Guarda las pruebas, bloquea a la persona y habla con mamá, papá u otro adulto de confianza. Si te amenazan, pide ayuda de inmediato."
+            )
+        }
+    }
+
+    private fun showLearningPopup(title: String, message: String) {
+        AlertDialog.Builder(this)
+            .setTitle(title)
+            .setMessage(message)
+            .setPositiveButton("Entendido", null)
+            .show()
     }
 
     override fun onStart() {
