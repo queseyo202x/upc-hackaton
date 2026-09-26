@@ -76,6 +76,12 @@ private val Red = Color(0xFFC5161D)
 private val CategoryColors = listOf(
     Color(0xFFC5161D), Color(0xFFB12650), Color(0xFF514092), Color(0xFF007A70)
 )
+private const val OFFICIAL_VIOLENCE_GUIDE_URL =
+    "https://www.gob.pe/479-reportar-casos-de-violencia-contra-las-mujeres-e-integrantes-del-grupo-familiar"
+private const val OFFICIAL_LINE_100_URL =
+    "https://www.gob.pe/44181-solicitar-ayuda-en-casos-de-violencia-familiar-y-sexual-linea-100"
+private const val OFFICIAL_CEM_DIRECTORY_URL =
+    "https://www.gob.pe/institucion/aurora/informes-publicaciones/3487068-directorio-de-los-servicios-de-atencion-y-proteccion-a-nivel-nacional"
 
 class ReportsActivity : ComponentActivity() {
     private val repository by lazy { FirestoreEventRepository() }
@@ -214,7 +220,8 @@ private fun ReportsScreen(
                 Text("📝  Preparar guía de denuncia", fontWeight = FontWeight.Bold)
             }
             ProtocolCard("Línea 100", "Orientación, consejería y soporte emocional. Gratuita y disponible las 24 horas.", "Llamar al 100", Purple, Intent.ACTION_DIAL, "tel:100", openDestination)
-            ProtocolCard("Centros Emergencia Mujer y Familia", "Atención legal, psicológica y social gratuita para personas afectadas por violencia.", "Ver información oficial", Color(0xFF007A70), Intent.ACTION_VIEW, "https://www.gob.pe/479-reportar-casos-de-violencia-contra-las-mujeres-e-integrantes-del-grupo-familiar", openDestination)
+            ProtocolCard("Línea 100 · información oficial", "Consulta horarios, alcance y condiciones del servicio en Gob.pe.", "Ver fuente oficial", Purple, Intent.ACTION_VIEW, OFFICIAL_LINE_100_URL, openDestination)
+            ProtocolCard("Centros Emergencia Mujer y Familia", "Atención legal, psicológica y social gratuita para personas afectadas por violencia.", "Ver directorio oficial", Color(0xFF007A70), Intent.ACTION_VIEW, OFFICIAL_CEM_DIRECTORY_URL, openDestination)
             Spacer(Modifier.height(4.dp))
         }
     }
@@ -258,7 +265,7 @@ private fun ReportsScreen(
                 showComplaintGuide = false
                 openDestination(
                     Intent.ACTION_VIEW,
-                    "https://www.gob.pe/479-reportar-casos-de-violencia-contra-las-mujeres-e-integrantes-del-grupo-familiar"
+                    OFFICIAL_VIOLENCE_GUIDE_URL
                 )
             }
         )
