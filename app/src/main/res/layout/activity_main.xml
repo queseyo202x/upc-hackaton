@@ -128,6 +128,18 @@
                 </LinearLayout>
             </LinearLayout>
 
+            <Button
+                android:id="@+id/chatSimulatorButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/bg_kira_button"
+                android:text="💬  Simular conversaciones"
+                android:textAllCaps="false"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

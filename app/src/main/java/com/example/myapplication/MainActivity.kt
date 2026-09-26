@@ -53,6 +53,9 @@ class MainActivity : AppCompatActivity() {
         findViewById<Button>(R.id.dashboardButton).setOnClickListener {
             startActivity(Intent(this, DashboardActivity::class.java))
         }
+        findViewById<Button>(R.id.chatSimulatorButton).setOnClickListener {
+            startActivity(Intent(this, ChatSimulatorActivity::class.java))
+        }
         findViewById<View>(R.id.learnCardSecret).setOnClickListener {
             showLearningPopup(
                 "La técnica del secreto",
