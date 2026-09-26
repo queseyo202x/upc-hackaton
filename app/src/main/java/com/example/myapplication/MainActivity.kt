@@ -10,6 +10,7 @@ import android.widget.LinearLayout
 import android.widget.ScrollView
 import android.widget.TextView
 import android.content.Intent
+import android.net.Uri
 import android.app.AlertDialog
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -55,6 +56,18 @@ class MainActivity : AppCompatActivity() {
         }
         findViewById<Button>(R.id.chatSimulatorButton).setOnClickListener {
             startActivity(Intent(this, ChatSimulatorActivity::class.java))
+        }
+        findViewById<Button>(R.id.call1810Button).setOnClickListener {
+            val dialIntent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:1810"))
+            if (dialIntent.resolveActivity(packageManager) != null) {
+                startActivity(dialIntent)
+            } else {
+                Snackbar.make(
+                    findViewById(R.id.main),
+                    "No se encontró una aplicación de teléfono en este dispositivo.",
+                    Snackbar.LENGTH_LONG
+                ).show()
+            }
         }
         findViewById<View>(R.id.learnCardSecret).setOnClickListener {
             showLearningPopup(
