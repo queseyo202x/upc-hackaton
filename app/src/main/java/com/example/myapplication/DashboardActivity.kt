@@ -239,8 +239,6 @@ class DashboardActivity : AppCompatActivity() {
         val patternText = card.findViewById<TextView>(R.id.patternText)
 
         val btnGuide = card.findViewById<Button>(R.id.btnConversationGuide)
-        val btnPdfMockup = card.findViewById<Button>(R.id.btnExportPdfMockup)
-        val btnMarkReviewed = card.findViewById<Button>(R.id.btnMarkReviewed)
 
         val handleName = if (event.contact.isNotBlank()) event.contact else "desconocido"
         contactHandle.text = if (handleName.startsWith("@")) handleName else "@$handleName"
@@ -290,16 +288,6 @@ class DashboardActivity : AppCompatActivity() {
 
         btnGuide.setOnClickListener {
             showConversationGuideDialog(handleName, event)
-        }
-
-        btnPdfMockup.setOnClickListener {
-            Snackbar.make(root, "📄 Generando informe PDF Divindat para ${handleName}... (Mockup)", Snackbar.LENGTH_LONG)
-                .setAction("Entendido") {}
-                .show()
-        }
-
-        btnMarkReviewed.setOnClickListener {
-            Snackbar.make(root, "✓ Evento con ${handleName} marcado como revisado", Snackbar.LENGTH_SHORT).show()
         }
 
         return card

@@ -174,42 +174,6 @@
                 android:textSize="13sp"
                 android:textStyle="bold" />
 
-            <!-- Fila de botones secundarios: Exportar PDF (Mockup) y Marcar revisado -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/btnExportPdfMockup"
-                    style="?attr/materialButtonOutlinedStyle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="6dp"
-                    android:layout_weight="1"
-                    android:backgroundTint="#EDE7F6"
-                    android:paddingVertical="8dp"
-                    android:text="📄 Exportar PDF Divindat"
-                    android:textAllCaps="false"
-                    android:textColor="#311B92"
-                    android:textSize="12sp" />
-
-                <Button
-                    android:id="@+id/btnMarkReviewed"
-                    style="?attr/materialButtonOutlinedStyle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="6dp"
-                    android:layout_weight="1"
-                    android:backgroundTint="#EDE7F6"
-                    android:paddingVertical="8dp"
-                    android:text="✓ Marcar revisado"
-                    android:textAllCaps="false"
-                    android:textColor="#311B92"
-                    android:textSize="12sp" />
-            </LinearLayout>
-
         </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>
