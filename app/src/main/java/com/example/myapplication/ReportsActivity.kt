@@ -31,11 +31,13 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.DateRangePicker
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -114,6 +116,7 @@ private fun ReportsScreen(
     var rangeStart by remember { mutableStateOf(defaultRangeStart()) }
     var rangeEnd by remember { mutableStateOf(endOfDay(System.currentTimeMillis())) }
     var showDateRangePicker by remember { mutableStateOf(false) }
+    var showComplaintGuide by remember { mutableStateOf(false) }
     var pendingPdf by remember { mutableStateOf<ByteArray?>(null) }
     val createPdfLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.CreateDocument("application/pdf")
@@ -202,6 +205,14 @@ private fun ReportsScreen(
             }
             SectionTitle("Protocolo de actuación inmediata")
             Text("Rutas oficiales de orientación y denuncia en Perú", color = MutedInk, fontSize = 14.sp)
+            Button(
+                onClick = { showComplaintGuide = true },
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(14.dp),
+                colors = ButtonDefaults.buttonColors(containerColor = Red)
+            ) {
+                Text("📝  Preparar guía de denuncia", fontWeight = FontWeight.Bold)
+            }
             ProtocolCard("Línea 100", "Orientación, consejería y soporte emocional. Gratuita y disponible las 24 horas.", "Llamar al 100", Purple, Intent.ACTION_DIAL, "tel:100", openDestination)
             ProtocolCard("Centros Emergencia Mujer y Familia", "Atención legal, psicológica y social gratuita para personas afectadas por violencia.", "Ver información oficial", Color(0xFF007A70), Intent.ACTION_VIEW, "https://www.gob.pe/479-reportar-casos-de-violencia-contra-las-mujeres-e-integrantes-del-grupo-familiar", openDestination)
             ProtocolCard("Denuncia formal", "Conserva mensajes, capturas y fechas. Presenta la denuncia ante la Policía o Fiscalía.", "Radicar denuncia formal", Purple, Intent.ACTION_VIEW, "https://www.gob.pe/pnp", openDestination)
@@ -237,6 +248,109 @@ private fun ReportsScreen(
             }
         ) {
             DateRangePicker(state = pickerState, showModeToggle = false)
+        }
+    }
+
+    if (showComplaintGuide) {
+        ComplaintGuideDialog(
+            events = loadedEvents.filter { it.hourMillis ?: 0L in rangeStart..rangeEnd },
+            onDismiss = { showComplaintGuide = false },
+            onOpenOfficialChannel = {
+                showComplaintGuide = false
+                openDestination(
+                    Intent.ACTION_VIEW,
+                    "https://www.gob.pe/479-reportar-casos-de-violencia-contra-las-mujeres-e-integrantes-del-grupo-familiar"
+                )
+            }
+        )
+    }
+
+}
+
+@Composable
+private fun ComplaintGuideDialog(
+    events: List<EventRecord>,
+    onDismiss: () -> Unit,
+    onOpenOfficialChannel: () -> Unit
+) {
+    var tutorName by remember { mutableStateOf("") }
+    var additionalDetails by remember { mutableStateOf("") }
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text("Guía para preparar una denuncia", color = Ink, fontWeight = FontWeight.Bold) },
+        text = {
+            Column(
+                modifier = Modifier.fillMaxWidth().height(520.dp).verticalScroll(rememberScrollState()),
+                verticalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                Text(
+                    "Este resumen organiza la información para presentarla ante una autoridad. Kira no envía la denuncia automáticamente.",
+                    color = MutedInk,
+                    fontSize = 13.sp
+                )
+                GuideStep("1", "Selecciona y revisa el caso", "Confirma fechas, contacto y mensajes antes de presentarlos.")
+                Card(colors = CardDefaults.cardColors(containerColor = PurpleSoft)) {
+                    Column(Modifier.padding(12.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                        Text("Evidencia del periodo seleccionado", color = Purple, fontWeight = FontWeight.Bold)
+                        Text("${events.size} eventos detectados", color = Ink, fontSize = 14.sp)
+                        events.take(4).forEach { event ->
+                            Text("• ${event.message} (${categoryLabel(event.category)})", color = MutedInk, fontSize = 12.sp)
+                        }
+                        if (events.size > 4) {
+                            Text("• y ${events.size - 4} eventos más", color = MutedInk, fontSize = 12.sp)
+                        }
+                    }
+                }
+                GuideStep("2", "Completa los datos del tutor", "Estos datos sirven para identificar a la persona que presenta la información.")
+                OutlinedTextField(
+                    value = tutorName,
+                    onValueChange = { tutorName = it },
+                    modifier = Modifier.fillMaxWidth(),
+                    label = { Text("Nombre del tutor") },
+                    singleLine = true
+                )
+                GuideStep("3", "Conserva las evidencias", "Guarda capturas completas, enlaces, usuario, fecha y hora. No edites los archivos originales.")
+                GuideStep("4", "Describe lo ocurrido", "Explica qué pasó, cómo afectó a la menor y si existe una amenaza inmediata.")
+                OutlinedTextField(
+                    value = additionalDetails,
+                    onValueChange = { additionalDetails = it },
+                    modifier = Modifier.fillMaxWidth(),
+                    label = { Text("Detalles adicionales") },
+                    minLines = 3
+                )
+                GuideStep("5", "Presenta la información", "Usa un canal oficial y pide orientación sobre el siguiente paso. Si hay peligro inmediato, contacta a emergencias.")
+                Card(colors = CardDefaults.cardColors(containerColor = Color(0xFFFFF4E5))) {
+                    Text(
+                        "Importante: no confrontes a la persona involucrada ni borres conversaciones. Prioriza la seguridad de la menor.",
+                        modifier = Modifier.padding(12.dp),
+                        color = Color(0xFF8A4B00),
+                        fontSize = 13.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+            }
+        },
+        confirmButton = {
+            Button(onClick = onOpenOfficialChannel, colors = ButtonDefaults.buttonColors(containerColor = Purple)) {
+                Text("Ver canal oficial")
+            }
+        },
+        dismissButton = { TextButton(onClick = onDismiss) { Text("Cerrar") } }
+    )
+}
+
+@Composable
+private fun GuideStep(number: String, title: String, description: String) {
+    Row(horizontalArrangement = Arrangement.spacedBy(10.dp), verticalAlignment = Alignment.Top) {
+        Box(
+            modifier = Modifier.size(28.dp).background(Purple, RoundedCornerShape(14.dp)),
+            contentAlignment = Alignment.Center
+        ) {
+            Text(number, color = Color.White, fontWeight = FontWeight.Bold, fontSize = 13.sp)
+        }
+        Column(Modifier.weight(1f)) {
+            Text(title, color = Ink, fontWeight = FontWeight.Bold, fontSize = 14.sp)
+            Text(description, color = MutedInk, fontSize = 12.sp, lineHeight = 17.sp)
         }
     }
 }
