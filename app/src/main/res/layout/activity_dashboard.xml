@@ -369,12 +369,6 @@
                     android:textSize="17sp"
                     android:textStyle="bold" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Análisis confidencial local"
-                    android:textColor="#64748B"
-                    android:textSize="12sp" />
             </LinearLayout>
 
             <!-- Contenedor Dinámico de Tarjetas de Eventos -->

@@ -10,6 +10,7 @@ import android.widget.LinearLayout
 import android.widget.ScrollView
 import android.widget.TextView
 import android.content.Intent
+import android.content.ActivityNotFoundException
 import android.net.Uri
 import android.app.AlertDialog
 import androidx.activity.enableEdgeToEdge
@@ -58,10 +59,12 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this, ChatSimulatorActivity::class.java))
         }
         findViewById<Button>(R.id.call1810Button).setOnClickListener {
-            val dialIntent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:1810"))
-            if (dialIntent.resolveActivity(packageManager) != null) {
+            try {
+                val dialIntent = Intent(Intent.ACTION_DIAL).apply {
+                    data = Uri.parse("tel:1810")
+                }
                 startActivity(dialIntent)
-            } else {
+            } catch (_: ActivityNotFoundException) {
                 Snackbar.make(
                     findViewById(R.id.main),
                     "No se encontró una aplicación de teléfono en este dispositivo.",

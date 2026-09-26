@@ -98,7 +98,7 @@
                     android:textSize="12sp" />
             </LinearLayout>
 
-            <!-- Recuadro de nivel de riesgo y confianza IA -->
+            <!-- Recuadro de nivel de riesgo -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -118,18 +118,6 @@
                     android:textSize="11sp"
                     android:textStyle="bold" />
 
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_weight="1" />
-
-                <TextView
-                    android:id="@+id/confidenceText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Confianza IA: 98%"
-                    android:textColor="#616161"
-                    android:textSize="12sp" />
             </LinearLayout>
 
             <!-- Caja destacada del mensaje/fragmento sospechoso -->

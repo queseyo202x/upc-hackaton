@@ -234,7 +234,6 @@ class DashboardActivity : AppCompatActivity() {
         val categoryDesc = card.findViewById<TextView>(R.id.categoryDescription)
         val eventTime = card.findViewById<TextView>(R.id.eventTimeText)
         val severityBadge = card.findViewById<TextView>(R.id.severityBadge)
-        val confidenceText = card.findViewById<TextView>(R.id.confidenceText)
         val messageQuote = card.findViewById<TextView>(R.id.messageQuoteText)
         val patternText = card.findViewById<TextView>(R.id.patternText)
 
@@ -274,8 +273,6 @@ class DashboardActivity : AppCompatActivity() {
             Category.CIBERBULYING -> "Ciberbulying"
             Category.COACCION_INTIMIDACION -> "Coacción/intimidación"
         }
-
-        confidenceText.text = "Confianza IA: 98%"
 
         messageQuote.text = "“${event.message}”"
 
