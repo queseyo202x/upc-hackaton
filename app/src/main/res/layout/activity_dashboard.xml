@@ -246,38 +246,6 @@
                         android:textSize="11sp" />
                 </LinearLayout>
 
-                <!-- Motor IA -->
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="6dp"
-                    android:layout_weight="1"
-                    android:background="#ECFDF5"
-                    android:orientation="vertical"
-                    android:padding="12dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Motor IA"
-                        android:textColor="#047857"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="100%"
-                        android:textColor="#065F46"
-                        android:textSize="22sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="En dispositivo"
-                        android:textColor="#047857"
-                        android:textSize="11sp" />
-                </LinearLayout>
             </LinearLayout>
 
             <!-- Scroll Horizontal de Chips de Filtro -->
@@ -533,6 +501,7 @@
 
     <!-- Barra de Navegación Inferior (Mockup) -->
     <LinearLayout
+        android:id="@+id/bottomNavigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#FFFFFF"
@@ -628,12 +597,4 @@
         </LinearLayout>
     </LinearLayout>
 
-    <Button
-        android:id="@+id/backToAnalysisButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="12dp"
-        android:backgroundTint="#475569"
-        android:text="Volver a consola de prueba"
-        android:textAllCaps="false" />
 </LinearLayout>

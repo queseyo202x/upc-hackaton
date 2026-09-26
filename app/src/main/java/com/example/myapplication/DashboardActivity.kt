@@ -50,7 +50,13 @@ class DashboardActivity : AppCompatActivity() {
         root = findViewById(R.id.dashboardRoot)
         ViewCompat.setOnApplyWindowInsetsListener(root) { view, insets ->
             val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            view.setPadding(bars.left, bars.top, bars.right, bars.bottom)
+            view.setPadding(bars.left, bars.top, bars.right, 0)
+            findViewById<View>(R.id.bottomNavigation).setPadding(
+                0,
+                8,
+                0,
+                8 + bars.bottom
+            )
             insets
         }
 
@@ -69,7 +75,14 @@ class DashboardActivity : AppCompatActivity() {
 
         setupFilterChips()
 
-        findViewById<Button>(R.id.backToAnalysisButton).setOnClickListener { finish() }
+        findViewById<View>(R.id.roleHija).setOnClickListener {
+            startActivity(
+                Intent(this, MainActivity::class.java).apply {
+                    addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
+                }
+            )
+            finish()
+        }
         findViewById<View>(R.id.reportsNavigation).setOnClickListener {
             startActivity(Intent(this, ReportsActivity::class.java))
         }
